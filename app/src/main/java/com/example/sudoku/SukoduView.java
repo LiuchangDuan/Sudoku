@@ -16,6 +16,8 @@ public class SukoduView extends View {
     private float width;
     private float height;
 
+    private Game game = new Game();
+
     public SukoduView(Context context) {
         super(context);
     }
@@ -80,11 +82,21 @@ public class SukoduView extends View {
         numberPaint.setColor(Color.BLACK);
         numberPaint.setStyle(Paint.Style.STROKE);
         numberPaint.setTextSize(height * 0.75f);
-        //水平居中
         numberPaint.setTextAlign(Paint.Align.CENTER);
 
+        //设置显示数字偏移量
+        Paint.FontMetrics fm = numberPaint.getFontMetrics();
         float x = width / 2;
-        canvas.drawText("1", 3 * width + x, 150, numberPaint);
+        //ascent：基准线到字符上面的距离 为负
+        //descent：基准线到字符下面的距离 为正
+        float y = height / 2 - (fm.ascent + fm.descent) / 2;
+//        canvas.drawText("1", 3 * width + x, y, numberPaint);
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                canvas.drawText(game.getTitleString(i, j), i * width + x, j * height + y, numberPaint);
+            }
+        }
 
         super.onDraw(canvas);
     }
