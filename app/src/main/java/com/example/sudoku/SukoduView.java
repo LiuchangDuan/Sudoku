@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.v4.content.ContextCompat;
+import android.view.MotionEvent;
 import android.view.View;
 
 /**
@@ -16,10 +17,31 @@ public class SukoduView extends View {
     private float width;
     private float height;
 
+    //所选择的单元格的位置
+    private int selectedX;
+    private int selectedY;
+
     private Game game = new Game();
 
     public SukoduView(Context context) {
         super(context);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() != MotionEvent.ACTION_DOWN) {
+            return super.onTouchEvent(event);
+        }
+
+        selectedX = (int) (event.getX() / width);
+        selectedY = (int) (event.getY() / height);
+
+        int used[] = game.getUsedNumberByCoor(selectedX, selectedY);
+        for (int i = 0; i < used.length; i++) {
+            System.out.println(used[i]);
+        }
+
+        return true;
     }
 
     @Override
