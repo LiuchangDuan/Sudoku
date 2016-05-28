@@ -37,9 +37,27 @@ public class SukoduView extends View {
         selectedY = (int) (event.getY() / height);
 
         int used[] = game.getUsedNumberByCoor(selectedX, selectedY);
+        StringBuffer sb = new StringBuffer();
         for (int i = 0; i < used.length; i++) {
-            System.out.println(used[i]);
+            sb.append(used[i]);
+//            System.out.println(used[i]);
         }
+
+//        //自定义Dialog
+//        //生成一个LayoutInflater对象
+//        LayoutInflater inflater = LayoutInflater.from(this.getContext());
+//        //使用LayoutInflater对象根据一个布局文件，生成一个View
+//        View layoutView = inflater.inflate(R.layout.dialog, null);
+//        //从生成好的TextView当中，取出相应的控件
+//        TextView textView = (TextView) layoutView.findViewById(R.id.usedTextId);
+//        textView.setText(sb.toString());
+//        //生成一个对话框的Builder对象
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+//        //设置对话框所要显示的内容
+//        builder.setView(layoutView);
+//        //生成对话框对象，并将其显示出来
+//        AlertDialog dialog = builder.create();
+//        dialog.show();
 
         return true;
     }
@@ -62,7 +80,7 @@ public class SukoduView extends View {
 //        backgroundPaint.setColor(getResources().getColor(R.color.sudoku_background, null));
 //        backgroundPaint.setColor(getResources().getColor(R.color.sudoku_background)); // deprecated
         //设置画笔的颜色
-        backgroundPaint.setColor(ContextCompat.getColor(getContext(), R.color.sudoku_background));
+        backgroundPaint.setColor(ContextCompat.getColor(this.getContext(), R.color.sudoku_background));
         //绘制背景色
         canvas.drawRect(0, 0, getWidth(), getHeight(), backgroundPaint);
 
