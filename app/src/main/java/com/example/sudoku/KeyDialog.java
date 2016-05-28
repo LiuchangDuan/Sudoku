@@ -14,17 +14,20 @@ public class KeyDialog extends Dialog {
 
     //用来存放代表对话框当中按钮的对象
     private final View keys[] = new View[9];
-
+    //已经使用的数字
     private final int used[];
+
+    private SudokuView sudokuView;
 
     /**
      *
      * @param context
      * @param used 保存当前单元格已经使用过的数字
      */
-    public KeyDialog(Context context, int[] used) {
+    public KeyDialog(Context context, int[] used, SudokuView sudokuView) {
         super(context);
         this.used = used;
+        this.sudokuView = sudokuView;
     }
 
     /**
@@ -46,6 +49,7 @@ public class KeyDialog extends Dialog {
             }
         }
 
+        setListeners();
     }
 
     private void findViews() {
@@ -58,6 +62,26 @@ public class KeyDialog extends Dialog {
         keys[6] = findViewById(R.id.keypad_7);
         keys[7] = findViewById(R.id.keypad_8);
         keys[8] = findViewById(R.id.keypad_9);
+    }
+
+    //通知SudokuView对象，刷新整个九宫格显示的数据
+    private void returnResult(int tile) {
+        sudokuView.setSelectedTile(tile);
+        //取消对话框的显示
+        dismiss();
+    }
+
+    private void setListeners() {
+        for (int i = 0; i < keys.length; i++) {
+            final int t = i + 1;
+            keys[i].setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    returnResult(t);
+                }
+            });
+        }
     }
 
 }

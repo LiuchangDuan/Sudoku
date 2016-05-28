@@ -18,13 +18,13 @@ public class Game {
 
     public Game() {
         sudoku = fromPuzzleString(str);
-        calculateAllUsedNumber();
+        calculateAllUsedTile();
     }
 
     /**
      * 用于计算所有单元格对应的不可用数据
      */
-    public void calculateAllUsedNumber() {
+    public void calculateAllUsedTile() {
         for (int x = 0; x < 9; x++) {
             for (int y = 0; y < 9; y++) {
                 used[x][y] = calculateUsedNumber(x, y);
@@ -126,7 +126,7 @@ public class Game {
      * @param y
      * @return
      */
-    public String getTitleString(int x, int y) {
+    public String getTileString(int x, int y) {
         int value = getNumber(x, y);
         if (value == 0) {
             return "";
@@ -146,6 +146,23 @@ public class Game {
             sudo[i] = src.charAt(i) - '0';
         }
         return sudo;
+    }
+
+    public boolean setTileIfValid(int x, int y, int value) {
+        int tiles[] = getUsedNumberByCoor(x, y);
+        if (value != 0) {
+            for (int tile : tiles) {
+                if (tile == value)
+                    return false;
+            }
+        }
+        setTile(x, y, value);
+        calculateAllUsedTile();
+        return true;
+    }
+
+    private void setTile(int x, int y, int value) {
+        sudoku[x + y * 9] = value;
     }
 
 }

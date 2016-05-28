@@ -11,7 +11,7 @@ import android.view.View;
 /**
  * Created by Administrator on 2016/5/26.
  */
-public class SukoduView extends View {
+public class SudokuView extends View {
 
     //单元格的宽度和高度
     private float width;
@@ -23,7 +23,7 @@ public class SukoduView extends View {
 
     private Game game = new Game();
 
-    public SukoduView(Context context) {
+    public SudokuView(Context context) {
         super(context);
     }
 
@@ -43,6 +43,9 @@ public class SukoduView extends View {
 //            System.out.println(used[i]);
         }
 
+        KeyDialog keyDialog = new KeyDialog(getContext(), used, this);
+        keyDialog.show();
+
 //        //自定义Dialog
 //        //生成一个LayoutInflater对象
 //        LayoutInflater inflater = LayoutInflater.from(this.getContext());
@@ -60,6 +63,14 @@ public class SukoduView extends View {
 //        dialog.show();
 
         return true;
+    }
+
+    public void setSelectedTile(int tile) {
+        if (game.setTileIfValid(selectedX, selectedY, tile)) {
+            //重新绘制整个视图
+            //onDraw()方法将会被重新调用
+            invalidate();
+        }
     }
 
     @Override
@@ -134,7 +145,7 @@ public class SukoduView extends View {
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                canvas.drawText(game.getTitleString(i, j), i * width + x, j * height + y, numberPaint);
+                canvas.drawText(game.getTileString(i, j), i * width + x, j * height + y, numberPaint);
             }
         }
 
